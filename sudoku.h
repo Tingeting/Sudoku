@@ -7,7 +7,7 @@ class sudoku {
 	public :
 
 		void giveQuestion();
-		void readIn{};
+		void readIn();
 		void solve();
 		
 		void changeNum();
@@ -20,4 +20,5 @@ class sudoku {
 	
 	private :
 
+		int cube[80];
 };

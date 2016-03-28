@@ -6,7 +6,7 @@ int main(){
 
 	sudoku s;
 
-
+	s.giveQuestion();
 
 
 
