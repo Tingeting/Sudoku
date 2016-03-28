@@ -14,7 +14,7 @@ class sudoku {
 		void changeRow(int, int);
 		void changeCol(int, int);
 		
-		void rotate();
+		void rotate(int);
 		void flip();
 		void transform();
 	
