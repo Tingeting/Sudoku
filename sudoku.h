@@ -10,9 +10,9 @@ class sudoku {
 		void readIn();
 		void solve();
 		
-		void changeNum();
-		void changeRow();
-		void changeCol();
+		void changeNum(int, int);
+		void changeRow(int, int);
+		void changeCol(int, int);
 		
 		void rotate();
 		void flip();
@@ -20,5 +20,6 @@ class sudoku {
 	
 	private :
 
-		int cube[80];
+		int cube[81];
+
 };
