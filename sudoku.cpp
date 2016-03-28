@@ -50,6 +50,20 @@ void sudoku::changeRow(int a, int b){
 	int change;
 	int i,j;
 
+	for(i=0;i<27;i++){
+
+			change=cube[27*a+i];
+			cube[27*a+i]=cube[27*b+i];
+			cube[27*b+i]=change;
+	}
+
+}
+
+void sudoku::changeCol(int a, int b){
+
+	int change;
+	int i,j;
+
 	for(i=0;i<9;i++){
 
 		for(j=0;j<3;j++){
@@ -61,7 +75,6 @@ void sudoku::changeRow(int a, int b){
 	}
 }
 /*
-void sudoku::changeCol();
 
 void rotate();
 void flip();
