@@ -1,12 +1,15 @@
 /*sudoku.cpp*/
 #include<iostream>
 #include<cstdio>
+#include<ctime>
+#include<cstdlib>
 #include"sudoku.h"
 using namespace std;
 
+
 void sudoku::giveQuestion(){
 
-	int	cube[81] = {
+	int question[81] = {
 
         8,0,0,4,0,6,0,0,7,
         0,0,0,0,0,0,4,0,0,
@@ -23,7 +26,7 @@ void sudoku::giveQuestion(){
 	
 	while(i<=80){
 		
-		printf("%d",cube[i]);
+		printf("%d",question[i]);
 		(i+1)%9==0?printf("\n"):printf(" ");
 		i++;
 	}
@@ -31,7 +34,6 @@ void sudoku::giveQuestion(){
 
 void sudoku::readIn(){
 	
-	int cube[81];
 	int i=0;
 
 	while(i<81){
@@ -49,8 +51,8 @@ void sudoku::changeNum(int a, int b){
 	
 	while(i<=80){
 	
-		if(cube[i]==a)cube[i]=b;
-		else if(cube[i]==b)cube[i]=a;	
+		if(cube[i]==a)	cube[i]=b;
+		else if(cube[i]==b)	cube[i]=a;	
 		i++;
 	}
 
@@ -90,7 +92,6 @@ void sudoku::rotate(int n){
 	
 	n=n%4;
 
-	int cube[81];
 	int cubeNew[81];
 	int i,j;
 
@@ -101,7 +102,7 @@ void sudoku::rotate(int n){
 			for(j=0;j<9;j++){
 		
 				cubeNew[(9*i+j)+((8-j-i)+9*(j-i))]=cube[9*i+j];
-			}
+			}//rotate 90 degree
 		}
 	}
 	else if(n==2){
@@ -111,7 +112,7 @@ void sudoku::rotate(int n){
 			for(j=0;j<9;j++){
 		
 				cubeNew[(9*i+j)+((8-j-i)+9*(8-j-i))]=cube[9*i+j];
-			}
+			}//rotate 180 degree
 		}
 	}
 	else if(n==3){
@@ -121,12 +122,66 @@ void sudoku::rotate(int n){
 			for(j=0;j<9;j++){
 		
 				cubeNew[(9*i+j)+((0-j+i)+9*(8-j-i))]=cube[9*i+j];
-			}
+			}//rotate 270 degree
 		}
+	}
+	
+	i=0;
+
+	while(i<81){
+
+		cube[i]=cubeNew[i];
+		i++;
 	}
 
 }
-/*
-void flip();
-void transform();
-*/
+
+void sudoku::flip(int n){
+
+	int i,j;
+	int cubeNew[81];
+
+	if(n==1){
+
+		for(i=0;i<9;i++){
+			
+			for(j=0;j<9;j++){
+
+				cubeNew[9*i+j+8-2*j]=cube[9*i+j];
+			}//vertically
+		}
+	}
+	else{
+
+		for(i=0;i<9;i++){
+
+			for(j=0;j<9;j++){
+
+				cubeNew[9*i+j+9*(8-2*i)]=cube[9*i+j];
+			}//horizontally
+		}
+	}
+	
+	i=0;
+
+	while(i<81){
+
+		cube[i]=cubeNew[i];
+		i++;
+	}
+	
+}
+
+void sudoku::transform(){
+
+	srand(time(NULL));
+	
+	changeNum(rand()%9+1,rand()%9+1);
+	changeNum(rand()%9+1,rand()%9+1);
+	changeNum(rand()%9+1,rand()%9+1);
+	changeRow(rand()%3,rand()%3);
+	changeCol(rand()%3,rand()%3);
+	rotate(rand()%100);
+	flip(rand()%2+1);
+	
+}
