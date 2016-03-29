@@ -1,5 +1,4 @@
 /*sudoku.h*/
-#include<iostream>
 using namespace std;
 
 class sudoku {
@@ -17,9 +16,9 @@ class sudoku {
 		void rotate(int);
 		void flip(int);
 		void transform();
+		void printS();
 	
 	private :
 
 		int cube[81];
-
 };

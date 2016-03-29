@@ -39,6 +39,7 @@ void sudoku::readIn(){
 	while(i<81){
 
 		scanf("%d", &cube[i]);
+		i++;
 	}
 
 }
@@ -46,6 +47,12 @@ void sudoku::readIn(){
 void sudoku::solve();
 */
 void sudoku::changeNum(int a, int b){
+	
+	if(a<=0||b<=0||a>9||b>9){
+
+		printf("ERROR");
+		exit(1);
+	}
 	
 	int i=0;
 	
@@ -59,6 +66,12 @@ void sudoku::changeNum(int a, int b){
 }
 
 void sudoku::changeRow(int a, int b){
+
+	if(a<0||b<0||a>2||b>2){
+
+		printf("ERROR");
+		exit(1);
+	}
 
 	int change;
 	int i,j;
@@ -74,6 +87,12 @@ void sudoku::changeRow(int a, int b){
 
 void sudoku::changeCol(int a, int b){
 
+	if(a<0||b<0||a>2||b>2){
+
+		printf("ERROR");
+		exit(1);
+	}
+	
 	int change;
 	int i,j;
 
@@ -89,6 +108,12 @@ void sudoku::changeCol(int a, int b){
 }
 
 void sudoku::rotate(int n){
+	
+	if(n<0||n>100){
+
+		printf("ERROR");
+		exit(1);
+	}
 	
 	n=n%4;
 
@@ -138,6 +163,12 @@ void sudoku::rotate(int n){
 
 void sudoku::flip(int n){
 
+	if(n<0||n>1){
+
+		printf("ERROR");
+		exit(1);
+	}
+
 	int i,j;
 	int cubeNew[81];
 
@@ -174,6 +205,8 @@ void sudoku::flip(int n){
 
 void sudoku::transform(){
 
+	readIn();
+
 	srand(time(NULL));
 	
 	changeNum(rand()%9+1,rand()%9+1);
@@ -181,7 +214,20 @@ void sudoku::transform(){
 	changeNum(rand()%9+1,rand()%9+1);
 	changeRow(rand()%3,rand()%3);
 	changeCol(rand()%3,rand()%3);
-	rotate(rand()%100);
-	flip(rand()%2+1);
+	rotate(rand()%101);
+	flip(rand()%2);
+
+	printS();	
+}
+
+void sudoku::printS(){
 	
+	int i=0;
+	
+	while(i<=80){
+		
+		printf("%d",cube[i]);
+		(i+1)%9==0?printf("\n"):printf(" ");
+		i++;
+	}
 }
