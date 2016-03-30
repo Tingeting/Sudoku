@@ -32,6 +32,7 @@ void sudoku::giveQuestion(){
 	}
 }
 
+
 void sudoku::readIn(){
 	
 	int i=0;
@@ -43,9 +44,59 @@ void sudoku::readIn(){
 	}
 
 }
-/*
-void sudoku::solve();
-*/
+
+
+void sudoku::solve(){
+
+	int cubeRow[81][9];
+	int cubeCol[81][9];
+	int cubeSqu[81][9];
+	int i,j,k;
+	
+	for(i=0;i<81;i++){
+
+		for(j=0;j<9;j++){
+
+			cubeRow[i][j]=j+1;
+			cubeCol[i][j]=j+1;
+			cubeSqu[i][j]=j+1;
+		}
+	}
+
+	for(i=0;i<81;i++){
+
+		for(j=0;j<9;j++){
+
+			for(k=0;k<9;k++){
+				
+				if(cubeRow[i][j]==cube[(i/9)*9+k]){
+	
+					cubeRow[i][j]=0;			
+				}
+				if(cubeCol[i][j]==cube[(i%9)*9+k]){
+	
+					cubeCol[i][j]=0;			
+				}
+				if(cubeSqu[i][j]==cube[(i/27)*27+((i%9)/3)*3]){
+	
+					cubeSqu[i][j]=0;			
+				}
+			}
+		}
+	}
+
+	for(i=0;i<81;i++){
+
+		for(j=0;j<9;j++){
+
+			
+			if(cubeRow[i][j]==cubeCol[][])
+		}
+	}
+
+}
+
+
 void sudoku::changeNum(int a, int b){
 	
 	if(a<=0||b<=0||a>9||b>9){
@@ -64,6 +115,7 @@ void sudoku::changeNum(int a, int b){
 	}
 
 }
+
 
 void sudoku::changeRow(int a, int b){
 
@@ -84,6 +136,7 @@ void sudoku::changeRow(int a, int b){
 	}
 
 }
+
 
 void sudoku::changeCol(int a, int b){
 
@@ -106,6 +159,7 @@ void sudoku::changeCol(int a, int b){
 		}
 	}
 }
+
 
 void sudoku::rotate(int n){
 	
@@ -176,6 +230,7 @@ void sudoku::rotate(int n){
 
 }
 
+
 void sudoku::flip(int n){
 
 	if(n<0||n>1){
@@ -218,6 +273,7 @@ void sudoku::flip(int n){
 	
 }
 
+
 void sudoku::transform(){
 
 	readIn();
@@ -232,6 +288,7 @@ void sudoku::transform(){
 
 	printS();	
 }
+
 
 void sudoku::printS(){
 	
