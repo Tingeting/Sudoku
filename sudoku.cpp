@@ -119,6 +119,14 @@ void sudoku::rotate(int n){
 
 	int cubeNew[81];
 	int i,j;
+	
+	i=0;
+	
+	while(i<81){
+
+		cubeNew[i]=0;
+		i++;
+	}
 
 	if(n==1){
 	
@@ -148,6 +156,13 @@ void sudoku::rotate(int n){
 		
 				cubeNew[(9*i+j)+((0-j+i)+9*(8-j-i))]=cube[9*i+j];
 			}//rotate 270 degree
+		}
+	}
+	else{
+		
+		for(i=0;i<81;i++){
+		
+			cubeNew[i]=cube[i];
 		}
 	}
 	
@@ -210,8 +225,6 @@ void sudoku::transform(){
 	srand(time(NULL));
 	
 	changeNum(rand()%9+1,rand()%9+1);
-	changeNum(rand()%9+1,rand()%9+1);
-	changeNum(rand()%9+1,rand()%9+1);
 	changeRow(rand()%3,rand()%3);
 	changeCol(rand()%3,rand()%3);
 	rotate(rand()%101);
@@ -230,4 +243,5 @@ void sudoku::printS(){
 		(i+1)%9==0?printf("\n"):printf(" ");
 		i++;
 	}
+	printf("\n");
 }
