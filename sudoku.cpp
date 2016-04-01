@@ -48,44 +48,110 @@ void sudoku::readIn(){
 
 void sudoku::solve(){
 
-	int cubeRow[81][9];
-	int cubeCol[81][9];
-	int cubeSqu[81][9];
-	int i,j,k;
+	int i=0,j=0;
 	
+	int zero=0;
+
 	for(i=0;i<81;i++){
 
-		for(j=0;j<9;j++){
+			if(cube[i]==0) zero++;
+	}
 
-			cubeRow[i][j]=j+1;
-			cubeCol[i][j]=j+1;
-			cubeSqu[i][j]=j+1;
+//	printf("%d",zero);
+
+	int zeroSite[zero];
+
+	for(i=0;i<81;i++){
+
+		if(cube[i]==0){
+
+			zeroSite[j]=i;
+			j++;
 		}
 	}
 
-	for(i=0;i<81;i++){
+/*		for(i=0;i<zero;i++){
+
+			printf("%d\n", zeroSite[i]);
+		}
+*/
+	int cubeElement[zero][9];
+	
+	for(i=0;i<zero;i++){
 
 		for(j=0;j<9;j++){
 
-			for(k=0;k<9;k++){
+			cubeElement[i][j]=j+1;
+		}
+	}//OK
+
+/*	i=0; //test
+	j=0;
+
+	for(i=0;i<zero;i++){
+
+		for(j=0;j<9;j++){
+
+			printf("%d",cubeElement[i][j]);
+			(j+1)%9==0?printf("\n"):printf(" ");
+		}
+	} */
+
+		int k,l;
+
+		for(i=0;i<zero;i++){
+
+			for(j=0;j<9;j++){
+
+				for(k=0;k<9;k++){					
+
+					if(cubeElement[i][j]==cube[(zeroSite[i]/9)*9+k]){
+
+						cubeElement[i][j]=0;
+					}
+					if(cubeElement[i][j]==cube[zeroSite[i]%9+k*9]){
+		
+						cubeElement[i][j]=0;			
+					}
+					if(cubeElement[i][j]==cube[((zeroSite[i])/27)*27+((zeroSite[i]%9)/3)*3+k%3+k/3*9]){
+		
+						cubeElement[i][j]=0;			
+					}			
+				}
+			}	
+		}
+
+/*		for(i=0;i<zero;i++){
+
+			for(j=0;j<9;j++){
 				
-				if(cubeRow[i][j]==cube[(i/9)*9+k]){
+				k=0;				
+
+				if(cubeElement[i][j]==cube[((9*i+j)/9)*9+k]){
 	
-					cubeRow[i][j]=0;			
+					cubeElement[i][j]=0;			
 				}
-				if(cubeCol[i][j]==cube[(i%9)*9+k]){
+				if(cubeElement[i][j]==cube[(i%9)*9+k]){
 	
-					cubeCol[i][j]=0;			
+					cubeElement[i][j]=0;			
 				}
-				if(cubeSqu[i][j]==cube[(i/27)*27+((i%9)/3)*3]){
+				if(cubeElement[i][j]==cube[(i/27)*27+((i%9)/3)*3]){
 	
-					cubeSqu[i][j]=0;			
+					cubeElement[i][j]=0;			
 				}
 			}
 		}
+*/	
+	for(i=0;i<zero;i++){
+
+		for(j=0;j<9;j++){
+
+			printf("%d", cubeElement[i][j]);
+			(j+1)%9==0?printf("\n"):printf(" ");
+		}
 	}
 
-	for(i=0;i<81;i++){
+/*	for(i=0;i<81;i++){
 
 		for(j=0;j<9;j++){
 
@@ -93,7 +159,7 @@ void sudoku::solve(){
 			if(cubeRow[i][j]==cubeCol[][])
 		}
 	}
-
+*/
 }
 
 
