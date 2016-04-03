@@ -784,30 +784,54 @@ void Sudoku::solve(){
 		}
 	}
 
+	if(first()){
+
+		printf("0\n");
+		exit(1);
+	}
+	/*
+	int count;
+	int count2;
+	int count3;
+
 	for(i=0;i<9;i++){
 
 		for(j=0;j<9;j++){
 
+			count=0;
+			count2=0;
+			count3=0;
+
 			for(k=0;k<9;k++){					
 
-				if(map[i][j]==cube[(map[i][j]/9)*9+k]){
-	
+				if(map[i][j]==cube[(map[i][j]/9)*9+k]||map[i][j]!=0){
+					
+		
+					if(count>2){
 					printf("0\n");
 					exit(1);
+					}
+					count++;
 				}
-				if(map[i][j]==cube[map[i][j]%9+k*9]){
+				if(map[i][j]==cube[map[i][j]%9+k*9]||map[i][j]!=0){
 	
+					if(count>2){	
 					printf("0\n");
 					exit(1);
+					}
+					count2++;
 				}
-				if(map[i][j]==cube[((map[i][j])/27)*27+((map[i][j]%9)/3)*3+k%3+k/3*9]){
+				if(map[i][j]==cube[((map[i][j])/27)*27+((map[i][j]%9)/3)*3+k%3+k/3*9]||map[i][j]!=0){
 	
+					if(count>2){
 					printf("0\n");
 					exit(1);
+					}
+					count3++;
 				}			
 			}
 		}	
-	}
+	}*/
 
 
 	int a,b;
@@ -831,4 +855,32 @@ void Sudoku::solve(){
 }
 
 
+bool Sudoku::first(){
 
+    for(int i=0;i<9;i++){
+
+        for(int j=0;j<9;j++){
+
+            if(map[i][j]){
+
+                for(int m=0;m<9;m++)
+
+                    if(map[m][j]==map[i][j]&&i!=m)return true;
+
+
+                for( int n = 0 ; n < 9 ; n++ )
+
+                    if( map[ i ][ n ] == map[ i ][ j ] && j != n ) return true ;
+
+
+                for( int m = 0 ; m < 3 ; m++ )
+
+                    for( int n = 0 ; n < 3 ; n++ )
+
+                        if( map[ i - ( i % 3 ) + m ][ j - ( j % 3 ) + n ] == map[ i ][ j ] && i != ( i - ( i % 3 ) + m ) && j != j - ( j % 3 ) + n ) return true ;
+
+            }
+
+        }
+}
+}
