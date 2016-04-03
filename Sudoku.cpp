@@ -1,4 +1,4 @@
-/*sudoku.cpp*/
+/*Sudoku.cpp*/
 #include<iostream>
 #include<cstdio>
 #include<ctime>
@@ -402,21 +402,25 @@ void Sudoku::printS(){
 	}
 	printf("\n");
 }
-
+/*
 void Sudoku::solve(){
 
 	int i,j;
 
 	int cubeNew[9][9];
 
-	for( i=0;i<9;i++){
+	for(i=0;i<9;i++){
 
-		for( j=0;j<9;j++){
+		for(j=0;j<9;j++){
 
 			cubeNew[i][j]=cube[9*i+j];
 		}
 	}
-//-----------------------------------------------------------------
+
+	//put value from cube into cubeNew
+	//---------------------------------
+
+
 	int k;
 
     bool num[9][9][9];
@@ -430,8 +434,8 @@ void Sudoku::solve(){
                 for(k=0;k<9;k++){
 
                     num[i][j][k]=false;
-                	num[i][j][cubeNew[i][j]-1]=true;
-            	}
+                }	
+				num[i][j][cubeNew[i][j]-1]=true;
 			}
             else{
 
@@ -457,20 +461,17 @@ void Sudoku::solve(){
 
             for(col=0;col<9;col++){
 
-                if(!cubeNew[row][col]){
+				if(!cubeNew[row][col]){
 
-                    for(i=0;i<9;i++){//TEST COL
+					for(i=0;i<9;i++){
 
-                        if(cubeNew[i][col]){ 
-						
-							num[row][col][cubeNew[i][col]-1]=false;
-						}
+						if(cubeNew[i][col]) num[row][col][cubeNew[i][col]-1]=false;
 					}
-                    for(j=0;j<9;j++){//TEST ROW
+                    for(i=0;i<9;i++){//TEST ROW
 
-                        if(cubeNew[row][j]){
+                        if(cubeNew[row][i]){
 					
-							num[row][col][cubeNew[row][j]-1]=false;
+							num[row][col][cubeNew[row][i]-1]=false;
 						}
 					}
                     for(i=0;i<3;i++){//TEST 3*3
@@ -483,83 +484,31 @@ void Sudoku::solve(){
 							}
 						}
 					}
-					//--------------------------------------------------				
-                    sum=0;
-                    for(k=0;k<9;k++){
-
-                        if(num[row][col][k]){
-
-                            sum++;
-                            ans=k+1;
-                        }
-                    }
-
-                    if(sum==1){ 
-				
-						cubeNew[row][col]=ans;
-					}	
 				}
             }
         }
-	
-	zero=0;
+	//-----------------------------------------------------------
+		
+		for(i=0;i<9;i++){
 
-        for(i=0;i<9;i++){
+			for(j=0;j<9;j++){
 
-            for(j=0;j<9;j++){
+				sum=0;
+			
+				for(k=0;k<9;k++){
 
-                if(!cubeNew[i][j]) zero++;
-			}
-		}
-      
+					if(num[i][j][k]){
 
-	for(i=0;i<9;i++){
-
-		for(j=0;j<9;j++){
-
-			if(cubeNew[i][j]){
-
-				for(m=0;m<9;m++){
-
-					if(cubeNew[m][j]==cubeNew[i][j]&&i!=m){
-
-							printf("2\n");
-							exit(1);
+						sum++;
+						ans=k+1;
 					}
 				}
-				for(n=0;n<9;n++){
-
-                        if(cubeNew[i][n]==cubeNew[i][j]&&j!=n){
-
-                            printf("2\n");
-							exit(1);
-                        }
-					}
-				for(m=0;m<3;m++){
-
-					for(n=0;n<3;n++){
-	
-						if(cubeNew[i-(i%3)+m][j-(j%3)+n]==cubeNew[i][j]&&i!=(i-(i%3)+m)&&j!=j- (j%3)+n){
-
-							printf("2\n");
-							exit(1);
-						}
-					}
-				}
+				if(sum==1) cubeNew[i][j]=ans;
 			}
 		}
 	}
-}
 //-----------------------------------------------------------------------------
-    if(zero){
 
-        printf("0\n");
-		exit(1);
-    }
-	else{
-    
-		printf("1\n");
-	}
 
 	
 	for(i=0;i<9;i++){
@@ -572,4 +521,186 @@ void Sudoku::solve(){
 
 	printS();
 	
-}
+}*/
+
+
+void Sudoku::solve(){
+
+    int i,j;
+
+    int cubeNew[9][9];
+
+    for( i=0;i<9;i++){
+
+        for( j=0;j<9;j++){
+
+            cubeNew[i][j]=cube[9*i+j];
+        }
+    }
+
+    int k;
+
+    bool num[9][9][9];
+
+    for(i=0;i<9;i++){
+
+        for(j=0;j<9;j++){
+
+            if(cubeNew[i][j]){
+
+                for(k=0;k<9;k++){
+
+                    num[i][j][k]=false;
+                    num[i][j][cubeNew[i][j]-1]=true;
+                }
+            }
+            else{
+
+                for(k=0;k<9;k++){
+
+                    num[i][j][k]=true;
+                }
+            }
+        }
+
+    }
+
+//-------------------------------------------------------------------
+    int zero,Zero=81;
+    int row,sum,ans,col;
+    int m,n;
+	
+	for(i=0;i<9;i++){
+
+		for(j=0;j<9;j++){
+
+			if(cubeNew[i][j]==0) zero++;
+		}
+	}
+
+    while(Zero!=zero&&zero!=0){
+
+        Zero=zero;
+
+        for(row=0;row<9;row++){
+
+            for(col=0;col<9;col++){
+
+                if(cubeNew[row][col]==0){
+
+                    for(i=0;i<9;i++){//TEST COL
+
+                        if(cubeNew[i][col]){
+
+                            num[row][col][cubeNew[i][col]-1]=false;
+                        }
+                    }
+                    for(j=0;j<9;j++){//TEST ROW
+
+                        if(cubeNew[row][j]){
+
+                            num[row][col][cubeNew[row][j]-1]=false;
+                        }
+                    }
+                    for(i=0;i<3;i++){//TEST 3*3
+
+                        for(j=0;j<3;j++){
+
+                            if(cubeNew[i-(row%3)+row][j+col-(col%3)]){
+
+                                num[row][col][cubeNew[i-(row%3)+row][j+col-(col%3)]-1]=false;
+                            }
+                        }
+                    }
+                    //--------------------------------------------------                
+                    sum=0;
+                    for(k=0;k<9;k++){
+
+                        if(num[row][col][k]){
+
+                            sum++;
+                            ans=k+1;
+                        }
+                    }
+
+                    if(sum==1){
+
+                        cubeNew[row][col]=ans;
+                    }
+                }
+            }
+        }
+
+   		zero=0;
+
+        for(i=0;i<9;i++){
+
+            for(j=0;j<9;j++){
+
+                if(!cubeNew[i][j]) zero++;
+            }
+        }
+	
+    for(i=0;i<9;i++){
+
+        for(j=0;j<9;j++){
+
+            if(cubeNew[i][j]){
+
+                for(m=0;m<9;m++){
+
+                    if(cubeNew[m][j]==cubeNew[i][j]&&i!=m){
+
+                            printf("0\n");
+                            return;
+                    }
+                }
+                for(n=0;n<9;n++){
+
+                        if(cubeNew[i][n]==cubeNew[i][j]&&j!=n){
+
+                            printf("0\n");
+                            return;
+                        }
+                    }
+                for(m=0;m<3;m++){
+
+                    for(n=0;n<3;n++){
+
+                        if(cubeNew[i-(i%3)+m][j-(j%3)+n]==cubeNew[i][j]&&i!=(i-(i%3)+m)&&j!=j-(j%3)+n){
+
+                            printf("0\n");
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}	
+
+//-----------------------------------------------------------------------------
+    if(zero){
+
+        printf("2\n");
+		exit(1);
+    }
+    else{
+
+        printf("1\n");
+    }
+
+
+    for(i=0;i<9;i++){
+
+        for(j=0;j<9;j++){
+
+            cube[9*i+j]=cubeNew[i][j];
+        }
+    }
+
+    printS();
+
+} 
+
+
