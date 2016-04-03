@@ -555,6 +555,7 @@ void Sudoku::solve(){
     if(zero){
 
         printf("2\n");
+		exit(1);
     }
 	else{
     
