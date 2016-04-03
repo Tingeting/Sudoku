@@ -45,7 +45,7 @@ void sudoku::readIn(){
 
 }
 
-
+/*
 void sudoku::solve(){
 
 	int i=0,j=0;
@@ -74,7 +74,7 @@ void sudoku::solve(){
 
 			printf("%d\n", zeroSite[i]);
 		}
-*/
+
 	int cubeElement[zero][9];
 	
 	for(i=0;i<zero;i++){
@@ -85,7 +85,7 @@ void sudoku::solve(){
 		}
 	}//OK
 
-/*	i=0; //test
+	i=0; //test
 	j=0;
 
 	for(i=0;i<zero;i++){
@@ -95,54 +95,97 @@ void sudoku::solve(){
 			printf("%d",cubeElement[i][j]);
 			(j+1)%9==0?printf("\n"):printf(" ");
 		}
-	} */
+	} 
 
-		int k,l;
+	int k,l;
 
-		for(i=0;i<zero;i++){
+	for(i=0;i<zero;i++){
+
+		for(j=0;j<9;j++){
+
+			for(k=0;k<9;k++){					
+
+				if(cubeElement[i][j]==cube[(zeroSite[i]/9)*9+k]){
+	
+					cubeElement[i][j]=0;
+				}
+				if(cubeElement[i][j]==cube[zeroSite[i]%9+k*9]){
+	
+					cubeElement[i][j]=0;			
+				}
+				if(cubeElement[i][j]==cube[((zeroSite[i])/27)*27+((zeroSite[i]%9)/3)*3+k%3+k/3*9]){
+	
+					cubeElement[i][j]=0;			
+				}			
+			}
+		}	
+	}
+	int Zero=82;
+	bool element[9][9][9];
+
+	while(Zero!=zero&&zero){
+
+		Zero=zero;
+
+		for(i=0;i<9;i++){
 
 			for(j=0;j<9;j++){
 
-				for(k=0;k<9;k++){					
-
-					if(cubeElement[i][j]==cube[(zeroSite[i]/9)*9+k]){
-
-						cubeElement[i][j]=0;
-					}
-					if(cubeElement[i][j]==cube[zeroSite[i]%9+k*9]){
-		
-						cubeElement[i][j]=0;			
-					}
-					if(cubeElement[i][j]==cube[((zeroSite[i])/27)*27+((zeroSite[i]%9)/3)*3+k%3+k/3*9]){
-		
-						cubeElement[i][j]=0;			
-					}			
-				}
+				
 			}	
 		}
-
-/*		for(i=0;i<zero;i++){
-
-			for(j=0;j<9;j++){
-				
-				k=0;				
-
-				if(cubeElement[i][j]==cube[((9*i+j)/9)*9+k]){
+	}
 	
-					cubeElement[i][j]=0;			
-				}
-				if(cubeElement[i][j]==cube[(i%9)*9+k]){
-	
-					cubeElement[i][j]=0;			
-				}
-				if(cubeElement[i][j]==cube[(i/27)*27+((i%9)/3)*3]){
-	
-					cubeElement[i][j]=0;			
-				}
+	int whereElement[zero];
+
+	for(i=0;i<zero;i++){
+
+		whereElement[i]=0;
+	}
+
+	for(i=0;i<zero;i++){
+
+		for(j=whereElement[i];j<9;j++){
+
+			if(cubeElement[i][j]!=0){
+					
+				cube[zeroSite[i]]=cubeElement[i][j];
+				whereElement[i]=j;
+				break;
 			}
 		}
-*/	
-	for(i=0;i<zero;i++){
+
+		for(k=0;k<9;k++){		
+
+			if(cube[zeroSite[i]]==cube[(zeroSite[i]/9)*9+k]){
+	
+				whereElement[i]++;
+				i--;
+				break;
+			}
+			if(cube[zeroSite[i]]==cube[zeroSite[i]%9+k*9]){
+		
+				whereElement[i]++;
+				i--;
+				break;
+			}
+			if(cube[zeroSite[i]]==cube[((zeroSite[i])/27)*27+((zeroSite[i]%9)/3)*3+k%3+k/3*9]){
+		
+				whereElement[i]++;
+				i--;
+				break;
+			}
+		}		
+	}
+
+
+
+
+}
+*/
+
+
+/*	for(i=0;i<zero;i++){
 
 		for(j=0;j<9;j++){
 
@@ -150,17 +193,8 @@ void sudoku::solve(){
 			(j+1)%9==0?printf("\n"):printf(" ");
 		}
 	}
-
-/*	for(i=0;i<81;i++){
-
-		for(j=0;j<9;j++){
-
-			
-			if(cubeRow[i][j]==cubeCol[][])
-		}
-	}
 */
-}
+
 
 
 void sudoku::changeNum(int a, int b){
@@ -367,4 +401,175 @@ void sudoku::printS(){
 		i++;
 	}
 	printf("\n");
+}
+
+void sudoku::solve(){
+
+	int i,j;
+
+	int cubeNew[9][9];
+
+	for( i=0;i<9;i++){
+
+		for( j=0;j<9;j++){
+
+			cubeNew[i][j]=cube[9*i+j];
+		}
+	}
+//-----------------------------------------------------------------
+	int k;
+
+    bool num[9][9][9];
+
+    for(i=0;i<9;i++){
+
+        for(j=0;j<9;j++){
+
+            if(cubeNew[i][j]){
+
+                for(k=0;k<9;k++){
+
+                    num[i][j][k]=false;
+                	num[i][j][cubeNew[i][j]-1]=true;
+            	}
+			}
+            else{
+
+                for(k=0;k<9;k++){
+
+                    num[i][j][k]=true;
+				}
+			}
+        }
+
+    }
+
+//-------------------------------------------------------------------
+    int zero=82,Zero=81;
+	int row,sum,ans,col;
+	int m,n;
+
+    while(Zero!=zero&&zero){
+
+        Zero=zero;
+
+        for(row=0;row<9;row++){
+
+            for(col=0;col<9;col++){
+
+                if(!cubeNew[row][col]){
+
+                    for(i=0;i<9;i++){//TEST COL
+
+                        if(cubeNew[i][col]){ 
+						
+							num[row][col][cubeNew[i][col]-1]=false;
+						}
+					}
+                    for(j=0;j<9;j++){//TEST ROW
+
+                        if(cubeNew[row][j]){
+					
+							num[row][col][cubeNew[row][j]-1]=false;
+						}
+					}
+                    for(i=0;i<3;i++){//TEST 3*3
+
+                    	for(j=0;j<3;j++){
+
+                            if(cubeNew[i-(row%3)+row][j+col-(col%3)]){ 
+
+								num[row][col][cubeNew[i-(row%3)+row][j+col-(col%3)]-1]=false;
+							}
+						}
+					}
+					//--------------------------------------------------				
+                    sum=0;
+                    for(k=0;k<9;k++){
+
+                        if(num[row][col][k]){
+
+                            sum++;
+                            ans=k+1;
+                        }
+                    }
+
+                    if(sum==1){ 
+				
+						cubeNew[row][col]=ans;
+					}	
+				}
+            }
+        }
+	
+	zero=0;
+
+        for(i=0;i<9;i++){
+
+            for(j=0;j<9;j++){
+
+                if(!cubeNew[i][j]) zero++;
+			}
+		}
+}
+      
+
+	for(i=0;i<9;i++){
+
+		for(j=0;j<9;j++){
+
+			if(cubeNew[i][j]!=0){
+
+				for(m=0;m<9;m++){
+
+					if(cubeNew[m][j]==cubeNew[i][j]&&i!=m){
+
+							printf("0\n");
+							exit(1);
+					}
+				}
+				for(n=0;n<9;n++){
+
+                        if(cubeNew[i][n]==cubeNew[i][j]&&j!=n){
+
+                            printf("0\n");
+							exit(1);
+                        }
+					}
+				for(m=0;m<3;m++){
+
+					for(n=0;n<3;n++){
+	
+						if(cubeNew[i-(i%3)+m][j-(j%3)+n]==cubeNew[i][j]&&i!=(i-(i%3)+m)&&j!=j- (j%3)+n){
+
+							printf("0\n");
+							exit(1);
+						}
+					}
+				}
+			}
+		}
+	}
+   
+//-----------------------------------------------------------------------------
+    if(zero){
+
+        printf("2\n");
+    }
+	else{
+    
+		printf("1\n");
+	}
+
+	
+	for(i=0;i<9;i++){
+
+		for(j=0;j<9;j++){
+
+			cube[9*i+j]=cubeNew[i][j];
+		}
+	}
+
+	printS();
+	
 }
