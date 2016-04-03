@@ -26,4 +26,9 @@ class Sudoku {
 	private :
 
 		int cube[81];
+		int map[9][9];
+		int ans;
+		void Solverec();
+		int compare(int,int,int);
+		int mapans[9][9];
 };

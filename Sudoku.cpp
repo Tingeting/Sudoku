@@ -1,5 +1,6 @@
 /*Sudoku.cpp*/
 #include<iostream>
+#include<iomanip>
 #include<cstdio>
 #include<ctime>
 #include<cstdlib>
@@ -524,8 +525,8 @@ void Sudoku::solve(){
 }*/
 
 
-void Sudoku::solve(){
 
+/*
     int i,j;
 
     int cubeNew[9][9];
@@ -551,8 +552,8 @@ void Sudoku::solve(){
                 for(k=0;k<9;k++){
 
                     num[i][j][k]=false;
-                    num[i][j][cubeNew[i][j]-1]=true;
-                }
+                }  
+				  num[i][j][cubeNew[i][j]-1]=true;   
             }
             else{
 
@@ -683,7 +684,7 @@ void Sudoku::solve(){
     if(zero){
 
         printf("2\n");
-		exit(1);
+		return;
     }
     else{
 
@@ -700,7 +701,108 @@ void Sudoku::solve(){
     }
 
     printS();
+*/
+ 
 
-} 
+int Sudoku::compare(int a,int b,int c){
+
+	int l,m,n=(a/3)*3+3,o=(b/3)*3+3;
+	
+	for(l=0;l<9;l++){
+
+		if(map[l][b]==c) return 0;
+		if(map[a][l]==c) return 0;
+	}
+	
+	for(l=(a/3)*3;l<n;l++){
+
+		for(m=(b/3)*3;m<o;m++){
+
+			if(map[l][m]==c) return 0;
+		}
+	}
+	
+	return 1;
+}
+
+
+
+void Sudoku::Solverec(){
+
+	int a,b,c,t=0;
+	for(a=0;a<9;a++){
+		
+		for(b=0;b<9;b++){
+
+			if(map[a][b]!=0) t++;
+		}
+	}
+	if(t==81){
+
+		ans++;
+		for(a=0;a<9;a++){
+
+			for(b=0;b<9;b++)
+				mapans[a][b]=map[a][b];
+		}
+		if(ans>=2)	return;
+	}
+	for(a=0;a<9;a++){
+
+		for(b=0;b<9;b++){
+
+			if(map[a][b]==0){
+
+				for(c=1;c<10;c++){
+
+					if(compare(a,b,c)==1){
+
+						map[a][b]=c;
+						Solverec();
+						map[a][b]=0;
+						if(ans>=2)
+							return;
+					}
+				}
+				return;
+			}
+		}
+	}
+}
+
+
+
+void Sudoku::solve(){
+	
+	int i,j;	
+
+	for(i=0;i<9;i++){
+
+		for(j=0;j<9;j++){
+
+			map[i][j]=cube[9*i+j];
+		}
+	}
+
+	int a,b;
+	ans=0;
+	Solverec();
+	if(ans==0)
+		cout<<"0"<<endl;
+	if(ans==1)
+		{
+		cout<<"1"<<endl;
+		for(a=0;a<9;a++)
+			{
+				for(b=0;b<9;b++){
+				printf("%d",mapans[a][b]);
+				(b+1)%9==0?cout<<"\n":cout<<" ";
+				}
+			}
+		}
+	if(ans==2)
+		cout<<"2"<<endl;
+}
+
 
 
