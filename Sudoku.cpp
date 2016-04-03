@@ -381,7 +381,6 @@ void Sudoku::transform(){
 
 	srand(time(NULL));
 	
-	changeNum(rand()%9+1,rand()%9+1);
 	changeRow(rand()%3,rand()%3);
 	changeCol(rand()%3,rand()%3);
 	rotate(rand()%101);
@@ -783,12 +782,6 @@ void Sudoku::solve(){
 			map[i][j]=cube[9*i+j];
 		}
 	}
-
-	if(first()){
-
-		printf("0\n");
-		exit(1);
-	}
 	/*
 	int count;
 	int count2;
@@ -854,7 +847,7 @@ void Sudoku::solve(){
 		cout<<"2"<<endl;
 }
 
-
+/*
 bool Sudoku::first(){
 
     for(int i=0;i<9;i++){
@@ -883,4 +876,4 @@ bool Sudoku::first(){
 
         }
 }
-}
+}*/
