@@ -511,20 +511,19 @@ void Sudoku::solve(){
                 if(!cubeNew[i][j]) zero++;
 			}
 		}
-}
       
 
 	for(i=0;i<9;i++){
 
 		for(j=0;j<9;j++){
 
-			if(cubeNew[i][j]!=0){
+			if(cubeNew[i][j]){
 
 				for(m=0;m<9;m++){
 
 					if(cubeNew[m][j]==cubeNew[i][j]&&i!=m){
 
-							printf("0\n");
+							printf("2\n");
 							exit(1);
 					}
 				}
@@ -532,7 +531,7 @@ void Sudoku::solve(){
 
                         if(cubeNew[i][n]==cubeNew[i][j]&&j!=n){
 
-                            printf("0\n");
+                            printf("2\n");
 							exit(1);
                         }
 					}
@@ -542,7 +541,7 @@ void Sudoku::solve(){
 	
 						if(cubeNew[i-(i%3)+m][j-(j%3)+n]==cubeNew[i][j]&&i!=(i-(i%3)+m)&&j!=j- (j%3)+n){
 
-							printf("0\n");
+							printf("2\n");
 							exit(1);
 						}
 					}
@@ -550,11 +549,11 @@ void Sudoku::solve(){
 			}
 		}
 	}
-   
+}
 //-----------------------------------------------------------------------------
     if(zero){
 
-        printf("2\n");
+        printf("0\n");
 		exit(1);
     }
 	else{
