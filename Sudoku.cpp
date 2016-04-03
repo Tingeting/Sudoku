@@ -774,7 +774,7 @@ void Sudoku::Solverec(){
 
 void Sudoku::solve(){
 	
-	int i,j;	
+	int i,j,k;	
 
 	for(i=0;i<9;i++){
 
@@ -783,6 +783,32 @@ void Sudoku::solve(){
 			map[i][j]=cube[9*i+j];
 		}
 	}
+
+	for(i=0;i<9;i++){
+
+		for(j=0;j<9;j++){
+
+			for(k=0;k<9;k++){					
+
+				if(map[i][j]==cube[(map[i][j]/9)*9+k]){
+	
+					printf("0\n");
+					exit(1);
+				}
+				if(map[i][j]==cube[map[i][j]%9+k*9]){
+	
+					printf("0\n");
+					exit(1);
+				}
+				if(map[i][j]==cube[((map[i][j])/27)*27+((map[i][j]%9)/3)*3+k%3+k/3*9]){
+	
+					printf("0\n");
+					exit(1);
+				}			
+			}
+		}	
+	}
+
 
 	int a,b;
 	ans=0;
