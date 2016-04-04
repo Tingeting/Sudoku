@@ -703,21 +703,21 @@ void Sudoku::solve(){
 */
  
 
-int Sudoku::compare(int a,int b,int c){
+int Sudoku::compare(int i,int j,int k){
 
-	int l,m,n=(a/3)*3+3,o=(b/3)*3+3;
+	int l,m,n=(i/3)*3+3,o=(j/3)*3+3;
 	
 	for(l=0;l<9;l++){
 
-		if(map[l][b]==c) return 0;
-		if(map[a][l]==c) return 0;
+		if(map[l][j]==k) return 0;
+		if(map[i][l]==k) return 0;
 	}
 	
-	for(l=(a/3)*3;l<n;l++){
+	for(l=(i/3)*3;l<n;l++){
 
-		for(m=(b/3)*3;m<o;m++){
+		for(m=(j/3)*3;m<o;m++){
 
-			if(map[l][m]==c) return 0;
+			if(map[l][m]==k) return 0;
 		}
 	}
 	
@@ -728,37 +728,37 @@ int Sudoku::compare(int a,int b,int c){
 
 void Sudoku::Solverec(){
 
-	int a,b,c,t=0;
-	for(a=0;a<9;a++){
+	int i,j,k,zero=0;
+	for(i=0;i<9;i++){
 		
-		for(b=0;b<9;b++){
+		for(j=0;j<9;j++){
 
-			if(map[a][b]!=0) t++;
+			if(map[i][j]!=0) zero++;
 		}
 	}
-	if(t==81){
+	if(zero==81){
 
 		ans++;
-		for(a=0;a<9;a++){
+		for(i=0;i<9;i++){
 
-			for(b=0;b<9;b++)
-				mapans[a][b]=map[a][b];
+			for(j=0;j<9;j++)
+				mapans[i][j]=map[i][j];
 		}
 		if(ans>=2)	return;
 	}
-	for(a=0;a<9;a++){
+	for(i=0;i<9;i++){
 
-		for(b=0;b<9;b++){
+		for(j=0;j<9;j++){
 
-			if(map[a][b]==0){
+			if(map[i][j]==0){
 
-				for(c=1;c<10;c++){
+				for(k=1;k<10;k++){
 
-					if(compare(a,b,c)==1){
+					if(compare(i,j,k)==1){
 
-						map[a][b]=c;
+						map[i][j]=k;
 						Solverec();
-						map[a][b]=0;
+						map[i][j]=0;
 						if(ans>=2)
 							return;
 					}
@@ -782,14 +782,97 @@ void Sudoku::solve(){
 			map[i][j]=cube[9*i+j];
 		}
 	}
-	/*
-	int count;
-	int count2;
-	int count3;
+/*
+for(i=0;i<9;i++){
+for(j=0;j<9;j++){
+	printf("%d",cube[9*i+j]);
+	(j+1)%9==0?printf("\n"):printf(" ");
+}}
+*/
+	int qq;
+	int gg;
+	int ff;
 
-	for(i=0;i<9;i++){
+	for(i=0;i<81;i++){
 
-		for(j=0;j<9;j++){
+		if(cube[i]!=0){
+
+			qq=0;
+			gg=0;
+			ff=0;
+
+			for(j=0;j<9;j++){
+
+				if(cube[i]==cube[((i/9)*9+j)]){
+				
+					qq++;					
+					
+					if(qq>1){
+						
+						printf("0\n");
+						exit(1);
+					}
+				}
+				if(cube[i]==cube[(i%9+j*9)]){
+				
+					gg++;
+	
+					if(gg>1){
+						
+						printf("0\n");
+						exit(1);
+					}
+
+				}
+				if(cube[i]==cube[((i/27)*27+((i%9)/3)*3+j%3+j/3*9)]){
+		
+					ff++;
+
+					if(ff>1){
+						
+						printf("0\n");
+						exit(1);
+					}
+				}
+			}
+		}
+		
+	}
+
+
+
+	int a,b;
+	ans=0;
+	Solverec();
+	if(ans==0){
+
+		printf("0\n");
+	}
+	
+	if(ans==1){
+
+		cout<<"1"<<endl;
+		for(a=0;a<9;a++){
+
+				for(b=0;b<9;b++){
+				
+					printf("%d",mapans[a][b]);
+					(b+1)%9==0?cout<<"\n":cout<<" ";
+				}
+		}
+	}
+	if(ans==2)
+			cout<<"2"<<endl;
+
+}
+
+
+/*	
+	int count=0;
+	int count2=0;
+	int count3=0;
+
+	for(i=0;i<81;i++){
 
 			count=0;
 			count2=0;
@@ -797,83 +880,35 @@ void Sudoku::solve(){
 
 			for(k=0;k<9;k++){					
 
-				if(map[i][j]==cube[(map[i][j]/9)*9+k]||map[i][j]!=0){
+				if(cube[i]==cube[(((i)/9)*9+k)]&&cube[i]!=0){
 					
 		
-					if(count>2){
+					if(count=2){
 					printf("0\n");
-					exit(1);
+					//exit(1);
 					}
+
+
 					count++;
+					printf("%d",count);
+					break;
 				}
-				if(map[i][j]==cube[map[i][j]%9+k*9]||map[i][j]!=0){
+				if(map[i][j]==(map[i][j]%9+k*9)&&map[i][j]!=0){
 	
-					if(count>2){	
+					if(count2=2){	
 					printf("0\n");
 					exit(1);
 					}
 					count2++;
 				}
-				if(map[i][j]==cube[((map[i][j])/27)*27+((map[i][j]%9)/3)*3+k%3+k/3*9]||map[i][j]!=0){
+				if(map[i][j]==(((map[i][j])/27)*27+((map[i][j]%9)/3)*3+k%3+k/3*9)&&map[i][j]!=0){
 	
-					if(count>2){
+					if(count3=2){
 					printf("0\n");
 					exit(1);
 					}
 					count3++;
 				}			
 			}
-		}	
-	}*/
-
-
-	int a,b;
-	ans=0;
-	Solverec();
-	if(ans==0)
-		cout<<"0"<<endl;
-	if(ans==1)
-		{
-		cout<<"1"<<endl;
-		for(a=0;a<9;a++)
-			{
-				for(b=0;b<9;b++){
-				printf("%d",mapans[a][b]);
-				(b+1)%9==0?cout<<"\n":cout<<" ";
-				}
-			}
-		}
-	if(ans==2)
-		cout<<"2"<<endl;
-}
-
-/*
-bool Sudoku::first(){
-
-    for(int i=0;i<9;i++){
-
-        for(int j=0;j<9;j++){
-
-            if(map[i][j]){
-
-                for(int m=0;m<9;m++)
-
-                    if(map[m][j]==map[i][j]&&i!=m)return true;
-
-
-                for( int n = 0 ; n < 9 ; n++ )
-
-                    if( map[ i ][ n ] == map[ i ][ j ] && j != n ) return true ;
-
-
-                for( int m = 0 ; m < 3 ; m++ )
-
-                    for( int n = 0 ; n < 3 ; n++ )
-
-                        if( map[ i - ( i % 3 ) + m ][ j - ( j % 3 ) + n ] == map[ i ][ j ] && i != ( i - ( i % 3 ) + m ) && j != j - ( j % 3 ) + n ) return true ;
-
-            }
-
-        }
-}
-}*/
+	}
+*/
